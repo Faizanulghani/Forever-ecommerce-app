@@ -1,10 +1,12 @@
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { assets } from "../assets/assets";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { ShopContext } from "../context/ShopContext";
 
 const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { setShowSearch } = useContext(ShopContext);
 
   const navItems = [
     { name: "Home", to: "/" },
@@ -47,6 +49,7 @@ const Navbar = () => {
       {/* Right Icons */}
       <div className="flex items-center gap-6">
         <img
+          onClick={() => setShowSearch(true)}
           src={assets.search_icon}
           alt="Search"
           className="w-5 cursor-pointer"
@@ -97,7 +100,7 @@ const Navbar = () => {
             onClick={() => setMobileMenuOpen(false)}
           >
             <img src={assets.dropdown_icon} className="h-4 rotate-180" alt="" />
-             BACK
+            BACK
           </div>
 
           <ul className="flex flex-col gap-4 text-gray-700 text-base">
