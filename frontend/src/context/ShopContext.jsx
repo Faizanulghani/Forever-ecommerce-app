@@ -55,6 +55,19 @@ const ShopContextProvider = ({ children }) => {
     setCartItems(cartData);
   };
 
+  const getCartAmount = ()=>{
+    let totalAmount = 0
+    for(const items in cartItems){
+      let itemInfo = products.find((product)=> product._id ===  items)
+      for(const item in cartItems[items]){
+        if(cartItems[items][item] > 0){
+          totalAmount += itemInfo.price * cartItems[items][item]
+        }
+      }
+    }
+    return totalAmount
+  }
+
   let value = {
     products,
     currency,
@@ -67,6 +80,7 @@ const ShopContextProvider = ({ children }) => {
     getCartCount,
     cartItems,
     updateQuantity,
+    getCartAmount
   };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };
