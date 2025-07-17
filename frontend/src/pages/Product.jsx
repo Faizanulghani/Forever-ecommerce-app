@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom";
 import { ShopContext } from "../context/ShopContext";
 import { useContext, useEffect, useState } from "react";
 import { assets } from "../assets/assets";
+import RelatedProducts from "../components/RelatedProducts";
 
 const Product = () => {
   let { productId } = useParams();
@@ -22,7 +23,7 @@ const Product = () => {
 
   useEffect(() => {
     fetchProductData();
-  }, [productData, productId]);
+  }, [productId, products]);
 
   return productData ? (
     <div className="border-t-2 pt-10 transition-opacity ease-in duration-500 opacity-100">
@@ -34,6 +35,7 @@ const Product = () => {
                 <img
                   src={item}
                   key={index}
+                  onClick={() => setImage(item)}
                   className="w-[24%] sm:w-full sm:mb-3 flex-shrink-0 cursor-pointer"
                   alt=""
                 />
@@ -111,100 +113,14 @@ const Product = () => {
           </p>
         </div>
       </div>
-      <div className="my-24">
-        <div className=" text-center text-3xl py-2">
-          <div className="inline-flex gap-2 items-center mb-3">
-            <p className="text-gray-500">
-              RELATED{" "}
-              <span className="text-gray-700 font-medium">PRODUCTS</span>
-            </p>
-            <p className="w-8 sm:w-12 h-[1px] sm:h-[2px] bg-gray-700"></p>
-          </div>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 gap-y-6">
-          <a
-            className="text-gray-700 cursor-pointer"
-            href="/product/6683d8897f779795ecfa98df"
-          >
-            <div className=" overflow-hidden">
-              <img
-                className="hover:scale-110 transition ease-in-out"
-                src=""
-                alt=""
-              />
-            </div>
-            <p className="pt-3 pb-1 text-sm">
-              Men Round Neck Pure Cotton T-shirt
-            </p>
-            <p className=" text-sm font-medium">$64</p>
-          </a>
-          <a
-            className="text-gray-700 cursor-pointer"
-            href="/product/6683d94e7f779795ecfa98ed"
-          >
-            <div className=" overflow-hidden">
-              <img
-                className="hover:scale-110 transition ease-in-out"
-                src="g"
-                alt=""
-              />
-            </div>
-            <p className="pt-3 pb-1 text-sm">Men Printed Plain Cotton Shirt</p>
-            <p className=" text-sm font-medium">$52</p>
-          </a>
-          <a
-            className="text-gray-700 cursor-pointer"
-            href="/product/6683d4587f779795ecfa98a7"
-          >
-            <div className=" overflow-hidden">
-              <img
-                className="hover:scale-110 transition ease-in-out"
-                src=""
-                alt=""
-              />
-            </div>
-            <p className="pt-3 pb-1 text-sm">
-              Men Round Neck Pure Cotton T-shirt
-            </p>
-            <p className=" text-sm font-medium">$26</p>
-          </a>
-          <a
-            className="text-gray-700 cursor-pointer"
-            href="/product/6683d57d7f779795ecfa98b7"
-          >
-            <div className=" overflow-hidden">
-              <img
-                className="hover:scale-110 transition ease-in-out"
-                src=""
-                alt=""
-              />
-            </div>
-            <p className="pt-3 pb-1 text-sm">
-              Men Round Neck Pure Cotton T-shirt
-            </p>
-            <p className=" text-sm font-medium">$26</p>
-          </a>
-          <a
-            className="text-gray-700 cursor-pointer"
-            href="/product/6683d4f47f779795ecfa98af"
-          >
-            <div className=" overflow-hidden">
-              <img
-                className="hover:scale-110 transition ease-in-out"
-                src=""
-                alt=""
-              />
-            </div>
-            <p className="pt-3 pb-1 text-sm">
-              Men Round Neck Pure Cotton T-shirt
-            </p>
-            <p className=" text-sm font-medium">$68</p>
-          </a>
-        </div>
-      </div>
+
+      <RelatedProducts
+        category={productData.category}
+        subcategory={productData.subCategory}
+      />
     </div>
   ) : (
-    <div classNameName="opacity-0"></div>
+    <div className="opacity-0"></div>
   );
 };
 
