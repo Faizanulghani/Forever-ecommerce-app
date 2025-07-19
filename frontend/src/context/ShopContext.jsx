@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { products } from "../assets/assets";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export const ShopContext = createContext();
 
@@ -10,6 +11,7 @@ const ShopContextProvider = ({ children }) => {
   const [search, setSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [cartItems, setCartItems] = useState({});
+  let navigate = useNavigate();
 
   const addToCart = (itemId, size) => {
     let cartData = structuredClone(cartItems);
@@ -34,19 +36,22 @@ const ShopContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    console.log("Cart Updated:", cartItems);
+    // console.log("Cart Updated:", cartItems);
   }, [cartItems]);
 
   const getCartCount = () => {
     let totalCount = 0;
     for (const items in cartItems) {
       for (const item in cartItems[items]) {
+        // console.log(cartItems[items][item]);
+        console.log(item, cartItems[items][item]);
+
         if (cartItems[items][item] > 0) {
           totalCount += cartItems[items][item];
         }
       }
     }
-    return totalCount;
+    // return totalCount;
   };
 
   const updateQuantity = (itemId, size, quantity) => {
@@ -55,18 +60,18 @@ const ShopContextProvider = ({ children }) => {
     setCartItems(cartData);
   };
 
-  const getCartAmount = ()=>{
-    let totalAmount = 0
-    for(const items in cartItems){
-      let itemInfo = products.find((product)=> product._id ===  items)
-      for(const item in cartItems[items]){
-        if(cartItems[items][item] > 0){
-          totalAmount += itemInfo.price * cartItems[items][item]
+  const getCartAmount = () => {
+    let totalAmount = 0;
+    for (const items in cartItems) {
+      let itemInfo = products.find((product) => product._id === items);
+      for (const item in cartItems[items]) {
+        if (cartItems[items][item] > 0) {
+          totalAmount += itemInfo.price * cartItems[items][item];
         }
       }
     }
-    return totalAmount
-  }
+    return totalAmount;
+  };
 
   let value = {
     products,
@@ -80,7 +85,8 @@ const ShopContextProvider = ({ children }) => {
     getCartCount,
     cartItems,
     updateQuantity,
-    getCartAmount
+    getCartAmount,
+    navigate,
   };
   return <ShopContext.Provider value={value}>{children}</ShopContext.Provider>;
 };
