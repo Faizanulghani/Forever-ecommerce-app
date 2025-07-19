@@ -43,7 +43,6 @@ const ShopContextProvider = ({ children }) => {
     let totalCount = 0;
     for (const items in cartItems) {
       for (const item in cartItems[items]) {
-        // console.log(cartItems[items][item]);
         console.log(item, cartItems[items][item]);
 
         if (cartItems[items][item] > 0) {
@@ -51,7 +50,7 @@ const ShopContextProvider = ({ children }) => {
         }
       }
     }
-    // return totalCount;
+    return totalCount;
   };
 
   const updateQuantity = (itemId, size, quantity) => {
