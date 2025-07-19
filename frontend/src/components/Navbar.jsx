@@ -13,9 +13,6 @@ const Navbar = () => {
     { name: "Collections", to: "/collections" },
     { name: "About", to: "/about" },
     { name: "Contact", to: "/contact" },
-    { name: "Cart", to: "/cart" },
-    { name: "Login", to: "/login" },
-    { name: "Orders", to: "/orders" },
   ];
 
   // Close mobile menu when route changes
@@ -39,8 +36,14 @@ const Navbar = () => {
                 fontWeight: isActive ? "600" : "normal",
               })}
             >
-              <p className="uppercase">{item.name}</p>
-              <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" />
+              {({ isActive }) => (
+                <>
+                  <p className="uppercase">{item.name}</p>
+                  {isActive && (
+                    <hr className="w-2/4 border-none h-[1.5px] bg-gray-700" />
+                  )}
+                </>
+              )}
             </NavLink>
           </li>
         ))}
