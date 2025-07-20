@@ -5,8 +5,6 @@ import {
   adminLogin,
 } from "../controllers/userController.js";
 import { registerValidation } from "./userValidator.js";
-
-// const router = require("express").Router();
 import route from "express";
 
 const router = route.Router();

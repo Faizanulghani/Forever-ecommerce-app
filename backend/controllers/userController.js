@@ -6,9 +6,32 @@ const createToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET);
 };
 
-const loginUser = async () => {};
+const loginUser = async (req, res) => {
+  try {
+    let { email, password } = req.body;
 
-const registerUser = async (req,res) => {
+    const user = await userModel.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ success: false, error: "User not found" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (isMatch) {
+      const token = createToken(user._id);
+      res.status(200).json({ success: true, token });
+    } else {
+      return res
+        .status(400)
+        .json({ success: false, error: "Invalid credentials" });
+    }
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+};
+
+const registerUser = async (req, res) => {
   try {
     let { name, email, password } = req.body;
     const exists = await userModel.findOne({ email });
