@@ -1,4 +1,5 @@
 import cloudinary from "../config/cloudinary.js";
+import productModel from "../models/productModel.js";
 const addProduct = async (req, res) => {
   try {
     const {
@@ -28,18 +29,23 @@ const addProduct = async (req, res) => {
         return result.secure_url;
       })
     );
-    console.log(
+    const productData = {
       name,
       description,
-      price,
+      price: Number(price),
       category,
       subCategory,
-      sizes,
-      bestseller
-    );
+      sizes: JSON.parse(sizes),
+      bestseller: bestseller === "true" ? true : false,
+      image: imageUrl,
+      date: Date.now(),
+    };
+    console.log(productData);
 
-    console.log(imageUrl);
-    res.json({});
+    let product = new productModel(productData);
+    await product.save();
+
+    res.json({ success: true, message: "Product added successfully" });
   } catch (error) {
     res.status(400).json({ success: false, error: error.message });
   }
