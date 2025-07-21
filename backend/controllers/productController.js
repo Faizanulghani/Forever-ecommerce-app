@@ -40,7 +40,6 @@ const addProduct = async (req, res) => {
       image: imageUrl,
       date: Date.now(),
     };
-    console.log(productData);
 
     let product = new productModel(productData);
     await product.save();
