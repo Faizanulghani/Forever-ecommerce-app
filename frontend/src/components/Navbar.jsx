@@ -6,7 +6,21 @@ import { ShopContext } from "../context/ShopContext";
 const Navbar = () => {
   const location = useLocation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const { setShowSearch, getCartCount } = useContext(ShopContext);
+  const {
+    setShowSearch,
+    getCartCount,
+    navigate,
+    token,
+    setToken,
+    setCartItems,
+  } = useContext(ShopContext);
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken("");
+    setCartItems({});
+    navigate("/login");
+  };
 
   const navItems = [
     { name: "Home", to: "/" },
@@ -59,21 +73,24 @@ const Navbar = () => {
         />
 
         <div className="group relative">
-          <Link to="/login">
-            <img
-              src={assets.profile_icon}
-              alt="Profile"
-              className="w-5 cursor-pointer"
-            />
-          </Link>
+          <img
+            onClick={() => (token ? null : navigate("/login"))}
+            src={assets.profile_icon}
+            alt="Profile"
+            className="w-5 cursor-pointer"
+          />
 
-          <div className="group-hover:block hidden absolute right-0 pt-4 z-20">
-            <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-600 rounded">
-              <p className="cursor-pointer hover:text-black">MY PROFILE</p>
-              <p className="cursor-pointer hover:text-black">ORDERS</p>
-              <p className="cursor-pointer hover:text-black">LOGOUT</p>
+          {token && (
+            <div className="group-hover:block hidden absolute right-0 pt-4 z-20">
+              <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-600 rounded">
+                <p className="cursor-pointer hover:text-black">MY PROFILE</p>
+                <p className="cursor-pointer hover:text-black">ORDERS</p>
+                <p onClick={logout} className="cursor-pointer hover:text-black">
+                  LOGOUT
+                </p>
+              </div>
             </div>
-          </div>
+          )}
         </div>
 
         <Link to="/cart" className="relative">

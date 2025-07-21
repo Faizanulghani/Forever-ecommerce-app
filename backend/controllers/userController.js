@@ -13,21 +13,19 @@ const loginUser = async (req, res) => {
     const user = await userModel.findOne({ email });
 
     if (!user) {
-      return res.status(400).json({ success: false, error: "User not found" });
+      return res.json({ success: false, error: "User not found" });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (isMatch) {
       const token = createToken(user._id);
-      res.status(200).json({ success: true, token });
+      res.json({ success: true, token });
     } else {
-      return res
-        .status(400)
-        .json({ success: false, error: "Invalid credentials" });
+      return res.json({ success: false, error: "Invalid credentials" });
     }
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    res.json({ success: false, error: error.message });
   }
 };
 
@@ -36,9 +34,7 @@ const registerUser = async (req, res) => {
     let { name, email, password } = req.body;
     const exists = await userModel.findOne({ email });
     if (exists) {
-      return res
-        .status(400)
-        .json({ success: false, error: "User already exists" });
+      return res.json({ success: false, error: "User already exists" });
     }
 
     const salt = await bcrypt.genSalt(10);
@@ -54,9 +50,9 @@ const registerUser = async (req, res) => {
 
     const token = createToken(user._id);
 
-    res.status(200).json({ success: true, token });
+    res.json({ success: true, token });
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    res.json({ success: false, error: error.message });
   }
 };
 
@@ -69,12 +65,12 @@ const adminLogin = async (req, res) => {
       password === process.env.ADMIN_PASSWORD
     ) {
       const token = jwt.sign(email + password, process.env.JWT_SECRET);
-      res.status(200).json({ success: true, token });
+      res.json({ success: true, token });
     } else {
-      res.status(400).json({ success: false, error: "Invalid credentials" });
+      res.json({ success: false, error: "Invalid credentials" });
     }
   } catch (error) {
-    res.status(400).json({ success: false, error: error.message });
+    res.json({ success: false, error: error.message });
   }
 };
 

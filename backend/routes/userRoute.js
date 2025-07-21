@@ -14,7 +14,7 @@ router.post("/register", registerValidation, (req, res) => {
 
   if (!error.isEmpty()) {
     const message = error.array().map((err) => err.msg);
-    return res.status(400).json({ success: false, error: message });
+    return res.json({ success: false, error: message });
   }
 
   registerUser(req, res);
