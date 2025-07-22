@@ -61,6 +61,15 @@ const Navbar = () => {
             </NavLink>
           </li>
         ))}
+        <li>
+          <a
+            href="https://forever-admin-lilac-seven.vercel.app/"
+            target="_blank"
+            className="border px-5 text-xs py-2 rounded-full -mt-2"
+          >
+            Admin Panel
+          </a>
+        </li>
       </ul>
 
       {/* Right Icons */}
@@ -84,7 +93,12 @@ const Navbar = () => {
             <div className="group-hover:block hidden absolute right-0 pt-4 z-20">
               <div className="flex flex-col gap-2 w-36 py-3 px-5 bg-slate-100 text-gray-600 rounded">
                 <p className="cursor-pointer hover:text-black">MY PROFILE</p>
-                <p onClick={() => navigate("/orders")} className="cursor-pointer hover:text-black">ORDERS</p>
+                <p
+                  onClick={() => navigate("/orders")}
+                  className="cursor-pointer hover:text-black"
+                >
+                  ORDERS
+                </p>
                 <p onClick={logout} className="cursor-pointer hover:text-black">
                   LOGOUT
                 </p>
