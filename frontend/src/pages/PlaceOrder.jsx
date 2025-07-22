@@ -11,6 +11,7 @@ const PlaceOrder = () => {
     navigate,
     backendUrl,
     token,
+    currency,
     cartItems,
     setCartItems,
     getCartAmount,
@@ -69,13 +70,11 @@ const PlaceOrder = () => {
             orderData,
             { headers: { token } }
           );
-          console.log(response);
-
           if (response.data.success) {
             setCartItems({});
             navigate("/orders");
           } else {
-            toast.error(response.data.message);
+            toast.error(response.data.error);
           }
           break;
 
@@ -192,17 +191,23 @@ const PlaceOrder = () => {
             <div className="flex flex-col gap-2 mt-2 text-sm">
               <div className="flex justify-between">
                 <p>Subtotal</p>
-                <p>$ 0.00</p>
+                <p>
+                  {currency} {getCartAmount()}.00
+                </p>
               </div>
               <hr />
               <div className="flex justify-between">
                 <p>Shipping Fee</p>
-                <p>$ 10.00</p>
+                <p>
+                  {currency} {delivery_fee}.00
+                </p>
               </div>
               <hr />
               <div className="flex justify-between">
                 <b>Total</b>
-                <b>$ 0.00</b>
+                <b>
+                  {currency} {getCartAmount() + delivery_fee}.00
+                </b>
               </div>
             </div>
           </div>
