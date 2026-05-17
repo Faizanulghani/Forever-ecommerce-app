@@ -17,7 +17,7 @@ const List = () => {
       if (response.data.success) {
         setList(response.data.products);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.error);
       }
     } catch (error) {
       toast.error(error.message);
@@ -40,7 +40,7 @@ const List = () => {
         toast.success(response.data.message);
         await fetchList();
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.error);
       }
     } catch (error) {
       toast.error(error.message);

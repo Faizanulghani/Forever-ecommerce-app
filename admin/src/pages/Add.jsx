@@ -54,7 +54,7 @@ const Add = () => {
         setImage3(false);
         setImage4(false);
       } else {
-        toast.error(response.data.message);
+        toast.error(response.data.error);
       }
     } catch (error) {
       toast.error(error.message);

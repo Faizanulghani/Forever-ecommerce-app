@@ -15,3 +15,13 @@ export const registerValidation = [
     .matches(/[!@#$%^&*(),.?":{}|<>]/)
     .withMessage("Password must contain at least one special character"),
 ];
+
+export const loginValidation = [
+  check("email").isEmail().withMessage("Invalid email address"),
+  check("password").notEmpty().withMessage("Password is required"),
+];
+
+export const adminLoginValidation = [
+  check("email").isEmail().withMessage("Invalid email address"),
+  check("password").notEmpty().withMessage("Password is required"),
+];

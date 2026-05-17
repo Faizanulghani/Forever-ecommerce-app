@@ -19,7 +19,7 @@ const Orders = ({ token }) => {
       if (reponse.data.success) {
         setOrders(reponse.data.orders);
       } else {
-        toast.error(reponse.data.message);
+        toast.error(reponse.data.error);
       }
     } catch (error) {
       toast.error(error.message);

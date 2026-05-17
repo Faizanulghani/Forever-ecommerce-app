@@ -1,14 +1,14 @@
 import mongoose from "mongoose";
 
 const productSchema = new mongoose.Schema({
-  name: { type: String, require: true },
-  description: { type: String, require: true },
-  price: { type: Number, require: true },
-  category: { type: String, require: true },
-  subCategory: { type: String, require: true },
-  image: { type: Array, require: true },
-  sizes: { type: Array, require: true },
-  date: { type: Number, require: true },
+  name: { type: String, required: true },
+  description: { type: String, required: true },
+  price: { type: Number, required: true },
+  category: { type: String, required: true },
+  subCategory: { type: String, required: true },
+  image: { type: Array, required: true },
+  sizes: { type: Array, required: true },
+  date: { type: Number, required: true },
   bestseller: { type: Boolean },
 });
 

@@ -21,7 +21,7 @@ const Collection = () => {
   };
 
   const toogleSubCategory = (e) => {
-    if (category.includes(e.target.value)) {
+    if (subCategory.includes(e.target.value)) {
       setSubCategory((prev) => prev.filter((item) => item !== e.target.value));
     } else {
       setSubCategory((prev) => [...prev, e.target.value]);
