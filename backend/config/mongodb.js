@@ -11,14 +11,23 @@ const connectDB = async () => {
     return cached.conn;
   }
 
+  if (!process.env.MONGODB_URI) {
+    throw new Error("MONGODB_URI environment variable is not set");
+  }
+
   if (!cached.promise) {
     cached.promise = mongoose
       .connect(process.env.MONGODB_URI, {
         bufferCommands: false,
+        serverSelectionTimeoutMS: 5000,
       })
       .then((mongooseInstance) => {
         console.log("MONGODB CONNECTED");
         return mongooseInstance;
+      })
+      .catch((err) => {
+        cached.promise = null;
+        throw err;
       });
   }
 

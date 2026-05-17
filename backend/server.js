@@ -1,5 +1,4 @@
 import express from "express";
-import cors from "cors";
 import "dotenv/config";
 import connectDB from "./config/mongodb.js";
 import userRouter from "./routes/userRoute.js";
@@ -10,34 +9,36 @@ import orderRouter from "./routes/orderRoute.js";
 const app = express();
 const port = process.env.PORT || 4000;
 
-const allowedOrigins = [
-  "https://forever-frontend-virid.vercel.app",
-  "https://forever-admin-virid.vercel.app",
-  "http://localhost:5173",
-  "http://localhost:5174",
-];
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", req.headers.origin || "*");
+  res.setHeader("Vary", "Origin");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PUT, DELETE, OPTIONS"
+  );
+  res.setHeader(
+    "Access-Control-Allow-Headers",
+    "Content-Type, token, Authorization"
+  );
+  res.setHeader("Access-Control-Allow-Credentials", "true");
 
-app.use(
-  cors({
-    origin: function (origin, callback) {
-      if (!origin) return callback(null, true);
-      if (allowedOrigins.includes(origin)) return callback(null, true);
-      return callback(null, true);
-    },
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "token", "Authorization"],
-  })
-);
+  if (req.method === "OPTIONS") {
+    return res.status(204).end();
+  }
+  next();
+});
 
 app.use(express.json());
 
 app.use(async (req, res, next) => {
+  if (req.path === "/" || req.path === "/health") return next();
   try {
     await connectDB();
     next();
   } catch (err) {
-    res.status(500).json({ success: false, error: "Database connection failed" });
+    res
+      .status(500)
+      .json({ success: false, error: "Database connection failed: " + err.message });
   }
 });
 
@@ -48,6 +49,14 @@ app.use("/api/order", orderRouter);
 
 app.get("/", (req, res) => {
   res.send("API Working");
+});
+
+app.get("/health", (req, res) => {
+  res.json({
+    ok: true,
+    hasMongoUri: Boolean(process.env.MONGODB_URI),
+    hasJwtSecret: Boolean(process.env.JWT_SECRET),
+  });
 });
 
 if (!process.env.VERCEL) {
