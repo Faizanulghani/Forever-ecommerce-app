@@ -1,15 +1,15 @@
 import multer from "multer";
+import os from "os";
 import fs from "fs";
 import path from "path";
 
-const uploadDir = path.resolve("uploads");
-
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, { recursive: true });
-}
+const uploadDir = path.join(os.tmpdir(), "ecommerce-uploads");
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
+    if (!fs.existsSync(uploadDir)) {
+      fs.mkdirSync(uploadDir, { recursive: true });
+    }
     cb(null, uploadDir);
   },
   filename: function (req, file, cb) {
